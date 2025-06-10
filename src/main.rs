@@ -165,3 +165,73 @@ fn char_type () {
     let char2 = 'b';
     print!("{} {}", char1, char2);
 }
+
+/* Ampun dah apa lagi enih. TUPLE
+Tuple = tipe data kumpulan lebih dari 1 tipe data
+jumlah data di Tuple ini dah final (defaultnya immutable). gabisa nambah/kurang lagi
+Kalo udah bikin 3 data (misal), jumlah sama tipe data gabisa diubah lagi
+buat bikin Tuple, pake ()
+*/
+#[test]
+fn tuple () {
+    let data = (10, 10.5,true);
+    println!("{:?}", data); //:? ini buat debug information
+    
+    /* Lah tros akses data tuple nya bgimane?
+    Nah kita bisa pake (titik) yang diikuti nomor index (lokasi) datanya.
+    yups seperti biasa, index dimulai dari 0
+     */
+    let a = data.0;
+    let b = data.1;
+    let c = data.2;
+    println!("{} {} {}", a, b, c);
+
+    /* Kadang kan ribet tuh kalo harus ambil data dari tuple satu-satu pake index. 
+    Alhamdulillah, kita bisa pakai destructuring buat bongkar isi tuple langsung ke variabel. 
+    Kalau ada data yang nggak kita butuhin, tinggal pakai tanda _ aja.
+     */
+    let (a, b, c) = data; // nah ini namanya destructuring (bongkar isi tuple nya)
+    println!("{} {} {}", a, b, c); 
+
+    //Kalo gabutuh salah satu data di dalamnya, pake _
+    let (_, e, _) = data; // nah ini namanya destructuring (bongkar isi tuple nya)
+    println!("{}", e);
+
+    /*  btw, kita bisa loh bikin Tuple jadi Mutable.
+     caranya: nomorIndex =
+     yahh kayak pas kita ngubah data variable gitu
+     */
+    let mut data3 = (10, 11.9, false);
+    println!("\n{:?}", data3);
+    data3.0 = 28;
+    data3.1 = 5.5;
+    data3.2 = true;
+    println!("{:?}", data3);
+}
+
+/*Lanjuuut~~ 
+Sekarang kita masuk ke yang namanya Unit. Unit adalah tuple tanpa nilai apapun, ditulisnya ()
+"Lah kaga guna dong? trs buat apa?"
+Biasanya Unit tuh dipake buat function2 yang ga butuh hasil data apapun
+*/
+fn unit () {
+    println!("Helloooo"); // sebetulnya ini tuh returnya tuple kosong
+}
+#[test]
+fn test_unit () {
+    let hasil = unit(); // bisa dibilang... dia literli emang tipedatanya tuh tuple kosong :v
+    println!("{:?}", hasil);
+    
+    let test = ();
+    println!("{:?}", test);
+}
+
+/* OKEEY SAATNYA KITA MASUK KE ARRAY MWAHAHAHHAHAA
+bedanya sama tuple, array tuh 1 tipe data aja (yaa tau lah ya)
+cara bikinnya: pake []
+*/
+#[test]
+fn array () {
+    let array = [1,2,3,4,5];
+    println!("{:?}", array);
+}
