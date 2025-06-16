@@ -232,6 +232,54 @@ cara bikinnya: pake []
 */
 #[test]
 fn array () {
-    let array = [1,2,3,4,5];
-    println!("{:?}", array);
+    println!("Array biasa");
+    let array: [i32; 5] = [1,2,3,4,5];
+    println!("{:?}", array); //ini buat print var array nya
+    println!();
+    /* Nah selanjutnya untuk ngakses array, mirip tuple.
+    (pake index yang mau dicari, maksude)
+    Bedanya, Tuple itu kan ngaksesnya pake .
+    Kalo array pake [index] */
+    
+    println!("Akses index Array saja");
+    let a = array[0];
+    let b = array[3];
+    println!("{} {}", a, b);
+    println!();
+    
+    // #MUTABLE ARRAY#
+    println!("----MUTABLE ARRAY----");
+    let mut array1 = [5,6,7,8,9];
+    println!("{:?}", array1); //ini buat print var array nya
+    
+    array1[1] = 10;
+    array1[0] = 0;
+    println!("{:?}", array1); //ini buat print var array nya
+    println!();
+    
+    // btw, kita bisa nih cari jumlah array nya dengan function len() buat array 
+    println!("----Length----");
+    let length = array.len(); //usize = ngikutin OS kamuu
+    println!("{:?}", length);
+    println!();
 }
+
+//Wetss saatnya masuk array 2 dimensi
+#[test]
+fn two_dimensional_array() {
+    let matrix = [
+        [1,2],
+        [3,4]
+    ];
+
+    print!("Ini Array 2 dimensi");
+    println!("{:?}", matrix);
+    println!("{:?}", matrix[0]); //[baris][kolom]
+    println!("{:?}", matrix[0][0]);
+    println!("{:?}", matrix[0][1]);
+    println!("{:?}", matrix[1]);
+    println!("{:?}", matrix[1][0]);
+    println!("{:?}", matrix[1][1]);
+}
+
+/* Sekarang kita masuk ke CONSTANT */
