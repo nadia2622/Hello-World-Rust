@@ -270,8 +270,8 @@ fn two_dimensional_array() {
     let matrix = [
         [1,2],
         [3,4]
-    ];
-
+        ];
+        
     print!("Ini Array 2 dimensi");
     println!("{:?}", matrix);
     println!("{:?}", matrix[0]); //[baris][kolom]
@@ -282,4 +282,77 @@ fn two_dimensional_array() {
     println!("{:?}", matrix[1][1]);
 }
 
-/* Sekarang kita masuk ke CONSTANT */
+/* Sekarang kita masuk ke variable CONSTANT */
+//var constant boleh di luar func
+
+const MAXIMUM: i32 = 100;
+#[test]
+fn constant() {
+    //var constant di dalam function juga boleh
+    const MINIMUM: i32 = 0; // variable constant sebaiknya upperase semua dan juga sebut tipe data secara explicit
+    println!("{} {}", MINIMUM, MAXIMUM);
+}
+
+//VARIABLE SCOPE
+/*  -adalah area dimana variable bisa duganakan
+    -variable bisa digunakan di dlm scope tempat insialisasi var, dan juga di inner scope
+    -Namun variable tidak bisa digunakan di outer scope */
+/*  Buat contoh, gini deh. MINIMUM bisa dipake di dalam func constant doang.
+    Tapi MAXIMUM bisa dipake di func lainnya */
+#[test]
+fn variable_scope() {
+    let nadia = 1; // variable scope
+    { // inner scope
+        println!("inner nadia: {}", nadia);
+        let tambunan = 2;
+        println!("inner tambunan: {}", tambunan);
+    }
+
+    // println!("inner tambunan: {}", tambunan); //eror
+}
+
+/*  Sekarang kita msuk ke Memory Management:
+    
+    Garbage Collection
+    -adalah fitur yang banyak digunakan bahasa pemrograman untuk melakukan manajemen memory, seperti Java dan Golang
+    -Secara berkala Garbage Collection akan memantau data yang sudah tidak digunakan lagi di memory, dan menghapusnya secara otomatis
+    -Rust memiliki pendekatan yang berbeda, Rust tidak menggunakan Garbage Collection, Rust juga tidak menggunakan Manual Memory Management
+    -Lah trus Rust pake apa? Nah ini akan kita bahas~ */
+
+/* STACK dan HEAP
+    -Rust membagi data di memory dalam dua bagian, Stack dan Heap
+    -Stack adalah bagian di mana data disimpan dalam struktur data tumpukan (Last In First Out). Semua data di Stack harus yang fixed size (artinya ukuran data sudah pasti)
+    -Heap berbeda, heap seperti tempat untuk menyimpan data.
+     Untuk menyimpan data di Heap, kita akan melakukan request ke Heap, lalu di dalam Heap terdapat Memory Allocator yang bertugas untuk menemukan area kosong untuk menyimpan dan mengalokasikan data ke area tersebut.
+     Setelah itu kita akan diberi pointer (penunjuk) ke lokasi di mana data itu berada di Heap
+    -Pointer dari Heap berukuran fixed size, oleh karena itu pointer akan disimpan di Stack
+    */ 
+#[test]
+fn stack_heap() {
+    function_a();
+    function_b();
+}
+
+fn function_a() {
+    let a = 10; // dia int, dan dia fixed size. makanya dia disimpan di Stack
+    let b = String::from("tambunan"); //String ini ukuran datanya ga pasti. makanya nanti dia disimpan di Heap
+
+    println!("{}, {}", a, b);
+}
+
+fn function_b() {
+    let a = 10;
+    let b = String::from("Nadia");
+    println!("{}, {}", a, b);
+}
+/*  DROP FUNCTION
+    -Saat variabel keluar dari scope-nya, yang artinya tidak bisa diakses lagi, secara otomatis Rust akan memanggil drop function
+    -Drop function adalah function untuk menghapus data, sehingga akan dibersihkan dari Heap
+    -Dan jika Rust function() sudah selesai dieksekusi, maka function() tersebut akan dihapus pula dari Stack Frame
+    -Oleh karena itu, Rust tidak membutuhkan Garbage Collection ataupun Manual Memory Management
+*/
+
+// ----- &str dan String -----
+/*  &str = fixed size
+    String = ukuran data bisa ngembang
+     */
