@@ -353,6 +353,104 @@ fn function_b() {
 */
 
 // ----- &str dan String -----
-/*  &str = fixed size
-    String = ukuran data bisa ngembang
+
+/*  &str = fixed size. (disimpan di Stack)
+    String = ukuran data bisa ngembang (disimpan di heap)
      */
+
+    /*Immutable str
+    - Karena ukuran &str adalah fixed size, maka operasi &str adalah tipe data yang immutable, artinya isi data &str tidak bisa diubah
+    - Ketika kita buat variable mutable, dan mengubah data &str, sebenarnya yang dilakukan adalah mengganti isi variable, bukan mengubah isi dari &str
+    - &str memiliki banyak sekali method yang bisa digunakan untuk memanipulasi &str nya, namun akan menghasilkan nilai &str baru
+    - Namun perlu diperhatikan, beberapa method dari &str akan mengembalikan bentuk data String, bukan &str
+
+    Ini link buat cari lebih lanjut ttg &str pada Rust : https://doc.rust-lang.org/std/primitive.str.html
+     */ 
+
+#[test]
+fn sting() {
+    let name: &str = "      Nadia Tambunan    ";
+    let trim: &str = name.trim(); //buat ngapus spasi kanan kiri
+    //aslinya 'name' ga berubah. 'trim' itu data baru, hanya saja ngambil dari 'name'
+    println!("{}", name);
+    println!("{}", trim);
+
+    let mut username: &'static str = "Nadia";
+    username = "Tambun"; // yang berubah bukan &str nya, tapi VARIABLE-NYA.
+    println!("{}", username);
+
+    let mut value = 10; //sebetulnya ini udah fixed. dia tetap ada
+    value = 11;     // nah kalo ini yg diubah hanya variablenya saja
+}
+
+/* Sekarang kita bahas String */
+/*  - String di Rust merupakan tipe data text UTF-8, dan bisa berkembang ukurannya
+    - Ketika kita buat dalam bentuk immutable variable, maka String tidak bisa berkembang, namun tetap disimpan di Heap
+    - Ketika kita buat dalam bentuk mutable variable, maka String bisa berkembang di Heap
+    - String juga memiliki method / function untuk memanipulasi data, namun perlu diperhatikan ada method yang digunakan untuk mengubah datanya sendiri, ada juga method yang digunakan untuk mengubah dalam bentuk data baru, tanpa memodifikasi data asli nya 
+    
+    Ini link buat cari lebih lanjut ttg String pada Rust : https://doc.rust-lang.org/std/string/struct.String.html
+*/
+
+#[test]
+fn sting_type() {
+    let mut name: String = String::from("Nadia"); // di simpen heap
+    name.push_str(" Tambunan"); // kalo kita pake push, di heap yg tadinya nadia doang, skrg bertambah karena ketambahan tambunan
+    println!("{}", name); // (btw push_str cuma bisa buat var mut)
+
+    let ganti = name.replace("Nadia", "Sangkam");
+    println!("{}", ganti); // kalo replace, dia tidak akan mengubah data di heap. tapi dia bikin data di heap baru, dan yang lama tetap ada
+}
+
+// OWNERSHIP
+/*  - Rust menggunakan Ownership untuk melakukan data management di Memory
+    - Ownership adalah salah satu fitur unik di Rust yang mungkin jarang ada di bahasa pemrograman lain
+    - Ownership wajib dimengerti, karena akan berdampak ke hampir semua fitur di Rust
+    - Ownership adalah fitur yang digunakan oleh Rust untuk menjadikan Rust menjadi bahasa pemrograman yang aman dalam mengelola data di memory, tanpa harus adanya fitur Garbage Collection atau Manual Memory Management
+    - Karena Ownership adalah konsep yang baru untuk kebanyakan programmer, maka kadang kita butuh waktu untuk memahaminya
+
+*/
+
+#[test]
+fn ownership_rules() {
+    // a tidak bisa diakses di sini, karena belum dideklarasikan
+    let a = 10; // a bisa diakses mulai dari sini
+
+    { // b tidak bisa diakses di sini, karena belum dideklarasikan
+        let b = 21; // a bisa diakses mulai dari sini
+        println!("{}", b);
+    } // scope b selesai, b dihapus, b tidak bisa diakses lagi
+
+    println!("{}", a);
+} // scope a selesai, a dihapus, a tidak bisa diakses lagi
+// pertanyaannya, kenapa dihapus? karena memang sudah tidak bisa diakses lagi (scope nya sudah selesai).
+
+//  === DATA COPY ===
+
+#[test]
+fn data_copy() {
+    let a = 10;
+    let b = a; // Sebetulnya dia adalah copy dari isi data di var a
+    
+    println!("{} {}", a, b);
+    
+    let c = 100;
+    let mut d = c; // Sebetulnya dia adalah copy dari isi data di var a
+    
+    d = 200; // ketika 2 diubah, isi var a tetap sama
+    println!("{} {}", c, d);
+}
+
+// === OWNERSHIP MOVEMENT ===
+
+#[test]
+fn ownership_movement() {
+    let name1 = String :: from("Nadia");
+
+    //ownership dari name1 dipindahkan ke name2
+    let name2 = name1;
+    //name1 tidak bisa diakses di sini
+
+    // println!("{}", name1); eror
+    println!("{}", name2);
+}
