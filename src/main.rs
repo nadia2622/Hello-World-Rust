@@ -368,7 +368,7 @@ fn function_b() {
      */ 
 
 #[test]
-fn sting() {
+fn string() {
     let name: &str = "      Nadia Tambunan    ";
     let trim: &str = name.trim(); //buat ngapus spasi kanan kiri
     //aslinya 'name' ga berubah. 'trim' itu data baru, hanya saja ngambil dari 'name'
@@ -445,7 +445,8 @@ fn data_copy() {
 
 #[test]
 fn ownership_movement() {
-    let name1 = String :: from("Nadia");
+    let name1 = String::from("Nadia");
+    println!("{}", name1);
 
     //ownership dari name1 dipindahkan ke name2
     let name2 = name1;
@@ -453,4 +454,59 @@ fn ownership_movement() {
 
     // println!("{}", name1); eror
     println!("{}", name2);
+}
+
+#[test]
+fn clone() {
+    let name1 = String::from("Sitambun");
+    let name2 = name1.clone(); //dia meng-clone si variable name1. 
+
+    println!("{} & {}", name1, name2);
+} 
+/* WARNING !!
+Proses clone ini bisa bikin berat. Karena dia membuat kembali data yang sama
+
+*/
+
+#[test]
+fn if_expression() {
+    let value = 9;
+    // let result: &str;
+    
+    // if value >= 8 {
+    //     result = "Good";
+    // } else if value >= 6 {
+    //     result = "Not Bad";
+    // } else if value >= 3 {
+    //     result = "Bad";
+    // } else {
+    //     result = "Very Bad";
+    // } // kayak gini bisa. tapi ada versi lebih simpelnya
+
+    let result = if value >= 8 {
+        "Good"
+    } else if value >= 6{
+        "Not Bad"
+    } else if value >= 3{
+        "Bad"
+    } else {
+        "Very Bad"
+    };
+
+    println!("{}", result);
+}
+
+#[test]
+fn loop_expression() {
+    let mut counter = 0;
+    loop {
+        counter += 1;
+        if counter > 10 {
+            break;
+        } else if counter % 2 == 0 {
+            continue;
+        }
+
+        println!("Counter: {}", counter);
+    }
 }
