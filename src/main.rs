@@ -504,9 +504,79 @@ fn loop_expression() {
         if counter > 10 {
             break;
         } else if counter % 2 == 0 {
-            continue;
+            continue; // hentikan looping saat ini, trs lanjut ke looping berikutnya
         }
 
         println!("Counter: {}", counter);
     }
 }
+
+#[test]
+fn loop_return_value() {
+    let mut counter = 0;
+    let result = loop {
+        counter += 1;
+        if counter > 10 {
+            break counter*2;
+        }
+    };
+    println!("Counter: {}", result);
+    
+    // LOOP LABEL
+
+    let mut number = 1;
+    'outer: loop {
+        let mut i = 1;
+        loop {
+            if number > 10 {
+                break 'outer;
+            }
+
+            println!("{} x {} = {}", number, i, number*i);
+            i += 1;
+            if i >10 {
+                break;
+            }
+        }
+        number += 1;
+    }
+}
+
+//WHILE LOOP
+#[test]
+fn while_loop() {
+    let mut counter = 0;
+    while counter <=10 {
+        if counter % 2 == 0 {
+            println!("Counter: {}", counter);
+        }
+        counter += 1;
+    }
+}
+
+#[test]
+fn array_iteration() {
+    let array = ["A", "B", "C", "D", "E"];
+    let mut index = 0;
+
+    // while index < array.len() {
+    //     println!("value: {}", array[index]);
+    //     index += 1;
+    // }
+
+    // ini kalo pake for lebih simpel
+
+    for value in array {
+        println!("Value {}", value);
+    }
+}
+
+// RANGE
+/*  - Rust memiliki tipe data bernama Range
+    - Range adalah jarak antara start dan end
+    - Range merupakan tipe data Collection seperti Array, sehingga bisa dilakukan pengulangan menggunakan For Loop
+    - Data range akan dimulai dari start dan diakhiri sebelum end (exclusive)
+    - Dokumentasi: https://doc.rust-lang.org/std/ops/struct.Range.html
+ */
+
+ 
