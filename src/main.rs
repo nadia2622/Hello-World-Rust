@@ -578,5 +578,124 @@ fn array_iteration() {
     - Data range akan dimulai dari start dan diakhiri sebelum end (exclusive)
     - Dokumentasi: https://doc.rust-lang.org/std/ops/struct.Range.html
  */
+#[test]
+fn range() {
+    let array: [&str; 5] = ["A", "B", "C", "D", "E"];
 
- 
+    // RANGE EXCLUSIVE
+    let range = 0..5; //range itu pake .. seperti di contoh.
+    println!("Start = {}", range.start); // range exclusive pake atribut
+    println!("End = {}", range.end);
+    
+    // RANGE INCLUSIVE
+    let range2 = 0..=4; //range itu pake .. seperti di contoh.
+    println!("Start = {}", range2.start()); // range inclusive bukan pake atribut, melainkan pake function
+    println!("End = {}", range2.end());
+
+    // for i in 0..5{} juga bisa. 0..5 ini adalah tipe data range
+    for i in range {
+        println!("(Exclusive) Value array ke-{} = {} \n", i, array[i]);
+    }
+    for j in range2 {
+    println!("(Inclusive) Value array ke-{} = {} \n", j, array[j]);
+    }
+}
+
+/* FUNCTION */
+/*
+    - Function adalah kumpulan kode yang memiliki nama, dan kegunaannya adalah agar bisa dipanggil
+    - Sebelumnya kita sudah tahu tentang main function, yaitu function yang dipanggil oleh ketika aplikasi berjalan
+    - Untuk membuat function, kita menggunakan kata kunci fn dan diikuti dengan nama function-nya
+    - Tradisi nama function / variable di Rust menggunakan format snake_case, yaitu huruf kecil semua dan pemisah kata menggunakan _ (garis bawah)
+    - Untuk memanggil function, kita bisa langsung sebutkan nama function-nya diikuti dengan kurung buka dan kurung tutup
+*/
+
+fn say_hello() {
+    println!("Hello guyysss");
+}
+
+#[test] 
+fn print_hello() {
+    say_hello();
+}
+
+// kita juga bisa menambahkan PARAMETER(atau bisa disebut argumen juga) ke dalam si function ini
+
+fn nama_lengkap(depan: &str, belakang: &str) {
+    println!("Hai, Bung {} {}", depan, belakang);
+}
+
+#[test]
+fn test_nama_lengkap() {
+    nama_lengkap("Nadia", "Tambunan");
+    nama_lengkap("Najwa", "Areefa");
+    nama_lengkap("Sangkam", "Pratiwi");
+}
+
+/* RETURN
+dia tandanya pake -> lalu diikuti dengan tipe data kembalian valuenya
+
+baris eksekusi terakhir di funcion akan dianggap sebagai kembalian valuenya,
+atau boleh juga pake kata "return" diikuti dengan value yang akan dikembalikan
+*/
+
+fn factorial_loop(n: i32) -> i32{
+    if n < 1 {
+        return 0;
+    }
+
+    let mut result = 1;
+    for i in 1..=n {
+        result *=i;
+    }
+    result // ini yang aku maksud baris eksekusi trakhir yg dianggep sebagai kembalian valuenya
+}
+
+#[test]
+fn test_factorial_loop() {
+    let result = factorial_loop(5);
+    println!("Result: {}", result);
+
+    let result = factorial_loop(-10);
+    println!("Result: {}", result);
+}
+
+/* RECURSIVE FUNCTION 
+    - Recursion merupakan salah satu metode pemecahan masalah dimana sebuah solusi pada masalah tersebut bergantung 
+    pada solusi dari masalah yang lebih kecil yang merupakan bagian dari masalah tersebut.
+    - Rust mengimplementasikan recursion dengan memperbolehkan sebuah fungsi untuk memanggil dirinya sendiri (fungsi itu sendiri).
+    - Fungsi yang memanggil fungsi itu sendiri biasanya disebut dengan Recursive Function.
+    - Misal kita akan buat dua contoh kasus, pertama kita akan melakukan println tulisan sebanyak parameter menggunakan recursive function. 
+    Kedua kita akan ubah factorial sebelumnya menjadi recursive function.
+*/
+
+fn print_text(value: String, times: u32) { // pake unsigned biar gabisa nerima angka negatif
+    if times == 0 {
+        return;
+    } else {
+        println!("{}\n", value);
+    }
+
+    print_text(value, times - 1); // manggil dirinya sendiri
+    // times - 1 adalah pengurang jumlah pengulangan agar fungsi tidak berjalan terus-menerus tanpa henti (infinite loop).
+    // Setiap kali fungsi dipanggil ulang, jumlah times berkurang satu hingga akhirnya mencapai 0.
+}
+
+#[test]
+fn test_print_text() {
+    print_text(String::from("Nadia"), 5);
+}
+
+fn factorial_recursive(n: u32) -> u32{
+    if n <= 1 {
+        return 1;
+    }
+
+    n * factorial_recursive(n-1) // baris eksekusi terakhir gausah pake ; btw
+}
+
+#[test]
+fn test_factorial_recursive() {
+    let result = factorial_recursive(5);
+    println!("Result: {}", result);
+}
